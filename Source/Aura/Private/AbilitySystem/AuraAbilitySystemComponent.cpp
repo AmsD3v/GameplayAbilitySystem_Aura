@@ -11,9 +11,12 @@ void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
                                                 const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
-	if(GEngine)
+	FGameplayTagContainer TagContainer;
+	EffectSpec.GetAllAssetTags(TagContainer);
+	for (const FGameplayTag& tag : TagContainer)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 8.f, FColor::Blue, FString("Effect Applied!"));
+		//TODO: Broadcast the tag to the Widget Controller
+		const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *tag.ToString());
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
 	}
-	
 }
